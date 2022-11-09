@@ -1,4 +1,5 @@
 import turtle
+import time
 
 wn = turtle.Screen()
 wn.title("Fuckets and Nubs")
@@ -79,7 +80,9 @@ ball.dx = 0.05
 ball.dy = 0.05
 ball.di = 0.005
 
-while True:
+running = True
+
+while running:
     wn.update()
 
     ball.setx(ball.xcor() + ball.dx)
@@ -163,18 +166,22 @@ while True:
     if paddle2.ycor() < -240:
         paddle2.sety(-240)
 
-    if score_a == 10:
-        paddle1.ht()
-        paddle2.ht()
-        pen.clear()
-        ball.ht()
-        pen.goto(0, 0)
-        pen.write("Player A Wins!", align="center", font=("Timeline", 40, "normal"))
+    max_score = 2
 
-    if score_b == 10:
-        paddle1.ht()
-        paddle2.ht()
-        pen.clear()
-        ball.ht()
-        pen.goto(0, 0)
-        pen.write("Player B Wins!", align="center", font=("Timeline", 40, "normal"))
+    if score_a == max_score or score_b == max_score:
+        running = False
+
+pen.clear()
+pen.goto(0, 0)
+paddle1.clear()
+paddle2.clear()
+ball.clear()
+
+if score_a > score_b:
+    pen.write("Player A Wins!", align="center", font=("Timeline", 40, "normal"))
+else:
+    pen.write("Player B Wins!", align="center", font=("Timeline", 40, "normal"))
+
+
+time.sleep(3)
+exit(0)
