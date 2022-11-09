@@ -1,7 +1,5 @@
 import turtle
 
-v = 1
-
 wn = turtle.Screen()
 wn.title('Fuckets and Nubs')
 wn.bgcolor('#8E5572')
