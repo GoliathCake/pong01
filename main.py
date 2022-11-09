@@ -72,7 +72,7 @@ wn.onkeypress(paddle2_down, 'Down')
 while True:
     wn.update()
     
-    if score_a or score_b >= 10:
+    if score_a or score_b <= 10:
         for i in range(0, 20):
             ball.dx = .25 * 2
             ball.dy = .25 * 2
