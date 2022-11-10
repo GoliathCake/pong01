@@ -1,5 +1,6 @@
 import turtle
 import time
+import random
 
 wn = turtle.Screen()
 wn.title("Fuckets and Nubs")
@@ -55,45 +56,62 @@ pen.write(
 
 def paddle1_up():
     y = paddle1.ycor()
-    y += 20
+    y += 10
     paddle1.sety(y)
 
 
 def paddle1_down():
     y = paddle1.ycor()
-    y -= 20
+    y -= 10
     paddle1.sety(y)
 
 
 def paddle2_up():
     y = paddle2.ycor()
-    y += 20
+    y += 10
     paddle2.sety(y)
 
 
 def paddle2_down():
     y = paddle2.ycor()
-    y -= 20
+    y -= 10
     paddle2.sety(y)
 
 
 wn.listen()
-wn.onkey(paddle1_up, "w")
-wn.onkey(paddle1_down, "s")
-wn.onkey(paddle2_up, "Up")
-wn.onkey(paddle2_down, "Down")
+wn.onkeypress(paddle1_up, "w")
+wn.onkeypress(paddle1_down, "s")
+# wn.onkey(paddle2_up, "Up")
+# wn.onkey(paddle2_down, "Down")
 
 ball.dx = 0.05
 ball.dy = 0.05
 ball.di = 0.005
 
 running = True
+game_time = 0
+
+ps = 50
+
 
 while running == True:
-    wn.update()
+
+    # player 2 ai
+    if ball.xcor() > -50:
+        if ball.ycor() > (paddle2.ycor()):
+            paddle2_up()
+        elif ball.ycor() < (paddle2.ycor()):
+            paddle2_down()
+
+    # player 1 ai
+    if ball.ycor() > (paddle1.ycor() + ps):
+        paddle1_up()
+    elif ball.ycor() < (paddle1.ycor() - ps):
+        paddle1_down()
 
     ball.setx(ball.xcor() + ball.dx)
     ball.sety(ball.ycor() + ball.dy)
+    wn.update()
 
     if ball.ycor() > 290:
         ball.sety(290)
@@ -147,16 +165,16 @@ while running == True:
 
     if (
         (ball.xcor() > 340 and ball.xcor() < 350)
-        and ball.ycor() < paddle2.ycor() + 40
-        and ball.ycor() > paddle2.ycor() - 40
+        and ball.ycor() < paddle2.ycor() + 50
+        and ball.ycor() > paddle2.ycor() - 50
     ):
         ball.setx(340)
         ball.dx *= -1
 
     if (
         (ball.xcor() < -340 and ball.xcor() > -350)
-        and ball.ycor() < paddle1.ycor() + 40
-        and ball.ycor() > paddle1.ycor() - 40
+        and ball.ycor() < paddle1.ycor() + 50
+        and ball.ycor() > paddle1.ycor() - 50
     ):
         ball.setx(-340)
         ball.dx *= -1
@@ -173,7 +191,7 @@ while running == True:
     if paddle2.ycor() < -240:
         paddle2.sety(-240)
 
-    max_score = 2
+    max_score = 10
 
     if score_a == max_score or score_b == max_score:
         running = False
@@ -186,9 +204,9 @@ pen.clear()
 pen.goto(0, 0)
 
 if score_a > score_b:
-    pen.write("Player A Wins!", align="center", font=("Timeline", 40, "normal"))
+    pen.write("You Win!", align="center", font=("Timeline", 40, "normal"))
 else:
-    pen.write("Player B Wins!", align="center", font=("Timeline", 40, "normal"))
+    pen.write("You Lose!", align="center", font=("Timeline", 40, "normal"))
 
 
 time.sleep(5)
