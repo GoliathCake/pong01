@@ -29,7 +29,7 @@ paddle2.goto(350, 0)
 
 ball = turtle.Turtle()
 ball.speed(0)
-ball.shape("square")
+ball.shape("circle")
 ball.color("#F2F7F2")
 ball.pu()
 ball.goto(0, 0)
@@ -37,12 +37,19 @@ ball.goto(0, 0)
 
 pen = turtle.Turtle()
 pen.speed(0)
-pen.color("#BCAA99")
+pen.color("#DFA06E")
 pen.ht()
 pen.pu()
 pen.goto(0, 255)
+pen.color("#F5F3BB")
 pen.write(
-    "Player A: 0  Player B: 0", align="center", font=("Rustic_Jack", 24, "normal")
+    "Player A: 0  Player B: 0",
+    align="center",
+    font=(
+        "Rustic_Jack",
+        24,
+        "normal",
+    ),
 )
 
 
@@ -71,10 +78,10 @@ def paddle2_down():
 
 
 wn.listen()
-wn.onkeypress(paddle1_up, "w")
-wn.onkeypress(paddle1_down, "s")
-wn.onkeypress(paddle2_up, "Up")
-wn.onkeypress(paddle2_down, "Down")
+wn.onkey(paddle1_up, "w")
+wn.onkey(paddle1_down, "s")
+wn.onkey(paddle2_up, "Up")
+wn.onkey(paddle2_down, "Down")
 
 ball.dx = 0.05
 ball.dy = 0.05
@@ -82,7 +89,7 @@ ball.di = 0.005
 
 running = True
 
-while running:
+while running == True:
     wn.update()
 
     ball.setx(ball.xcor() + ball.dx)
@@ -171,17 +178,17 @@ while running:
     if score_a == max_score or score_b == max_score:
         running = False
 
+paddle1.hideturtle()
+paddle2.hideturtle()
+ball.hideturtle()
+wn.update()
 pen.clear()
 pen.goto(0, 0)
-paddle1.clear()
-paddle2.clear()
-ball.clear()
-
 if score_a > score_b:
     pen.write("Player A Wins!", align="center", font=("Timeline", 40, "normal"))
 else:
     pen.write("Player B Wins!", align="center", font=("Timeline", 40, "normal"))
 
 
-time.sleep(3)
+time.sleep(5)
 exit(0)
