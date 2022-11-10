@@ -184,6 +184,7 @@ ball.hideturtle()
 wn.update()
 pen.clear()
 pen.goto(0, 0)
+
 if score_a > score_b:
     pen.write("Player A Wins!", align="center", font=("Timeline", 40, "normal"))
 else:
