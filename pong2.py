@@ -106,10 +106,8 @@ def move_ball():
     ball.sety(ball.ycor() + ball.dy)
 
 
-#! check collisions
-
-
-def check_bounce():
+# @ check collisions
+def check_bounce(score_a, score_b, running):
 
     # check ceiling/floor bounces
     if ball.ycor() > 290:
@@ -123,11 +121,11 @@ def check_bounce():
     # check goal scored
     if ball.xcor() > 390:
         score_a += 1
-        point_won()
+        point_won(score_a, score_b, running)
 
     if ball.xcor() < -390:
         score_b += 1
-        point_won()
+        point_won(score_a, score_b, running)
 
     # check paddle collision
     if (
@@ -152,7 +150,7 @@ def check_bounce():
 # @ point won
 
 
-def point_won():
+def point_won(score_a, score_b, running):
 
     # update ball direction
     ball.goto(0, 0)
@@ -195,7 +193,7 @@ def game_over():
 # @ main gameplay
 def mainloop():
     move_ball()
-    check_bounce()
+    check_bounce(score_a, score_b, running)
     wn.update()
 
 
@@ -205,6 +203,6 @@ while running == True:
     mainloop()
     td = time.time() - current_time
     sleep_time = 1 / fps
-    time.sleep(sleep_time - td)
+    # time.sleep(sleep_time - td)
 
 game_over()
