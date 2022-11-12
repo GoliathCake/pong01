@@ -53,6 +53,8 @@ pen.write(
     ),
 )
 
+# define paddle movement functions
+
 
 def paddle1_up():
     y = paddle1.ycor()
@@ -68,13 +70,13 @@ def paddle1_down():
 
 def paddle2_up():
     y = paddle2.ycor()
-    y += 10
+    y += 1
     paddle2.sety(y)
 
 
 def paddle2_down():
     y = paddle2.ycor()
-    y -= 10
+    y -= 1
     paddle2.sety(y)
 
 
@@ -103,34 +105,34 @@ while running == True:
         elif ball.ycor() < (paddle2.ycor()):
             paddle2_down()
 
-    # player 1 ai
-    if ball.ycor() > (paddle1.ycor() + ps):
-        paddle1_up()
-    elif ball.ycor() < (paddle1.ycor() - ps):
-        paddle1_down()
+        # # player 1 ai
+        # if ball.ycor() > (paddle1.ycor() + ps):
+        #     paddle1_up()
+        # elif ball.ycor() < (paddle1.ycor() - ps):
+        #     paddle1_down()
 
-    ball.setx(ball.xcor() + ball.dx)
-    ball.sety(ball.ycor() + ball.dy)
-    wn.update()
+        # ball.setx(ball.xcor() + ball.dx)
+        # ball.sety(ball.ycor() + ball.dy)
+        # wn.update()
 
-    if ball.ycor() > 290:
-        ball.sety(290)
-        ball.dy *= -1
+        # if ball.ycor() > 290:
+        #     ball.sety(290)
+        #     ball.dy *= -1
 
-    if ball.ycor() < -290:
-        ball.sety(-290)
-        ball.dy *= -1
+        # if ball.ycor() < -290:
+        #     ball.sety(-290)
+        #     ball.dy *= -1
 
-    if ball.xcor() > 390:
-        ball.goto(0, 0)
-        ball.dx *= -1
-        score_a += 1
-        pen.clear()
-        pen.write(
-            "Player A: {}  Player B: {}".format(score_a, score_b),
-            align="center",
-            font=("Rustic_Jack", 24, "normal"),
-        )
+        # if ball.xcor() > 390:
+        #     ball.goto(0, 0)
+        #     ball.dx *= -1
+        #     score_a += 1
+        #     pen.clear()
+        #     pen.write(
+        #         "Player A: {}  Player B: {}".format(score_a, score_b),
+        #         align="center",
+        #         font=("Rustic_Jack", 24, "normal"),
+        #     )
         # speed up ball after point won
         if ball.dx > 0:
             ball.dx += ball.di
@@ -142,16 +144,16 @@ while running == True:
         else:
             ball.dy -= ball.di
 
-    if ball.xcor() < -390:
-        ball.goto(0, 0)
-        ball.dx *= -1
-        score_b += 1
-        pen.clear()
-        pen.write(
-            "Player A: {}  Player B: {}".format(score_a, score_b),
-            align="center",
-            font=("Rustic_Jack", 24, "normal"),
-        )
+        # if ball.xcor() < -390:
+        #     ball.goto(0, 0)
+        #     ball.dx *= -1
+        #     score_b += 1
+        #     pen.clear()
+        #     pen.write(
+        #         "Player A: {}  Player B: {}".format(score_a, score_b),
+        #         align="center",
+        #         font=("Rustic_Jack", 24, "normal"),
+        #     )
         # speed up ball after point won
         if ball.dx > 0:
             ball.dx += ball.di
@@ -163,22 +165,23 @@ while running == True:
         else:
             ball.dy -= ball.di
 
-    if (
-        (ball.xcor() > 340 and ball.xcor() < 350)
-        and ball.ycor() < paddle2.ycor() + 50
-        and ball.ycor() > paddle2.ycor() - 50
-    ):
-        ball.setx(340)
-        ball.dx *= -1
+    # if (
+    #     (ball.xcor() > 340 and ball.xcor() < 350)
+    #     and ball.ycor() < paddle2.ycor() + 50
+    #     and ball.ycor() > paddle2.ycor() - 50
+    # ):
+    #     ball.setx(340)
+    #     ball.dx *= -1
 
-    if (
-        (ball.xcor() < -340 and ball.xcor() > -350)
-        and ball.ycor() < paddle1.ycor() + 50
-        and ball.ycor() > paddle1.ycor() - 50
-    ):
-        ball.setx(-340)
-        ball.dx *= -1
+    # if (
+    #     (ball.xcor() < -340 and ball.xcor() > -350)
+    #     and ball.ycor() < paddle1.ycor() + 50
+    #     and ball.ycor() > paddle1.ycor() - 50
+    # ):
+    #     ball.setx(-340)
+    #     ball.dx *= -1
 
+    # clipping
     if paddle1.ycor() > 240:
         paddle1.sety(240)
 
@@ -191,23 +194,23 @@ while running == True:
     if paddle2.ycor() < -240:
         paddle2.sety(-240)
 
-    max_score = 10
+    # max_score = 10
 
-    if score_a == max_score or score_b == max_score:
-        running = False
+    # if score_a == max_score or score_b == max_score:
+    #     running = False
 
-paddle1.hideturtle()
-paddle2.hideturtle()
-ball.hideturtle()
-wn.update()
-pen.clear()
-pen.goto(0, 0)
+# paddle1.hideturtle()
+# paddle2.hideturtle()
+# ball.hideturtle()
+# wn.update()
+# pen.clear()
+# pen.goto(0, 0)
 
-if score_a > score_b:
-    pen.write("You Win!", align="center", font=("Timeline", 40, "normal"))
-else:
-    pen.write("You Lose!", align="center", font=("Timeline", 40, "normal"))
+# if score_a > score_b:
+#     pen.write("You Win!", align="center", font=("Timeline", 40, "normal"))
+# else:
+#     pen.write("You Lose!", align="center", font=("Timeline", 40, "normal"))
 
 
-time.sleep(5)
-exit(0)
+# time.sleep(5)
+# exit(0)
