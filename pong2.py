@@ -35,6 +35,19 @@ ball.color("#F2F7F2")
 ball.pu()
 ball.goto(0, 0)
 
+# net
+net = turtle.Turtle()
+net.speed(0)
+net.fillcolor("black")
+net.begin_fill()
+net.pu()
+net.goto(140, 300)
+net.right(90)
+net.pendown()
+net.goto(140, -300)
+net.hideturtle()
+
+
 # scoreboard
 pen = turtle.Turtle()
 pen.speed(0)
@@ -77,12 +90,14 @@ def paddle2_up():
     y = paddle2.ycor()
     y += 3
     paddle2.sety(y)
+    paddle2.color("red")
 
 
 def paddle2_down():
     y = paddle2.ycor()
     y -= 3
     paddle2.sety(y)
+    paddle2.color("red")
 
 
 wn.listen()
@@ -147,12 +162,13 @@ def check_bounce():
         and ball.ycor() < paddle2.ycor() + 55
         and ball.ycor() > paddle2.ycor() - 55
     ):
+        paddle2.color("black")
         ball.dx *= -1
         ball.setx(340)
         if ball.ycor() > paddle2.ycor():
-            ball.dy += 0.1
+            ball.dy += 0.5
         else:
-            ball.dy -= 0.1
+            ball.dy -= 0.5
 
         print(f"ball delta ({ball.dx}, {ball.dy}")
 
@@ -180,6 +196,7 @@ def point_won():
     global running
     global score_a
     global score_b
+    paddle2.color("black")
     # update ball direction
     ball.goto(0, 0)
     ball.dx *= -1
