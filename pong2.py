@@ -100,9 +100,18 @@ def paddle2_down():
     paddle2.color("red")
 
 
+def pause():
+    global paused
+    if paused == False:
+        paused = True
+    else:
+        paused = False
+
+
 wn.listen()
 wn.onkeypress(paddle1_up, "w")
 wn.onkeypress(paddle1_down, "s")
+wn.onkeypress(pause, "Escape")
 
 
 # Ball Delta
@@ -113,6 +122,7 @@ score_a = 0
 score_b = 0
 max_score = 10
 running = True
+paused = False
 fps = 60
 
 # ? cpu ai
@@ -132,6 +142,26 @@ def ai():
 def move_ball():
     ball.setx(ball.xcor() + ball.dx)
     ball.sety(ball.ycor() + ball.dy)
+
+
+# ? pause message
+def p_message():
+    if paused == True:
+        pen.clear()
+        pen.goto(0, 0)
+        pen.write(
+            "Paused, press Esc to continue",
+            align="center",
+            font=("Timeline", 18, "normal"),
+        )
+    else:
+        pen.clear()
+        pen.goto(0, 255)
+        pen.write(
+            "Player A: {}  Player B: {}".format(score_a, score_b),
+            align="center",
+            font=("Rustic_Jack", 24, "normal"),
+        )
 
 
 # ? check collisions
@@ -190,8 +220,6 @@ def check_bounce():
 # check clipping
 
 # ? point won
-
-
 def point_won():
     global running
     global score_a
@@ -246,12 +274,15 @@ def game_over():
 def mainloop(fps):
 
     frame_dur = 1 / fps
+    global running
 
     while running:
         start = time.time()
-        move_ball()
-        ai()
-        check_bounce()
+        if not paused:
+            move_ball()
+            ai()
+            check_bounce()
+        p_message()
         wn.update()
         lag = time.time() - start  # how much time it took to run game loop
         sleep = frame_dur - lag
@@ -262,5 +293,6 @@ def mainloop(fps):
 
 
 mainloop(fps)
+
 
 game_over()
