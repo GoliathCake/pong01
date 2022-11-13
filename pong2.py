@@ -56,15 +56,21 @@ pen.write(
 
 # ? paddle movement functions
 def paddle1_up():
-    y = paddle1.ycor()
-    y += 10
-    paddle1.sety(y)
+    if paddle1.ycor() > 240:
+        pass
+    else:
+        y = paddle1.ycor()
+        y += 10
+        paddle1.sety(y)
 
 
 def paddle1_down():
-    y = paddle1.ycor()
-    y -= 10
-    paddle1.sety(y)
+    if paddle1.ycor() < -240:
+        pass
+    else:
+        y = paddle1.ycor()
+        y -= 10
+        paddle1.sety(y)
 
 
 def paddle2_up():
@@ -138,8 +144,8 @@ def check_bounce():
     # check paddle collision
     if (
         (ball.xcor() > 340 and ball.xcor() < 350)
-        and ball.ycor() < paddle2.ycor() + 50
-        and ball.ycor() > paddle2.ycor() - 50
+        and ball.ycor() < paddle2.ycor() + 55
+        and ball.ycor() > paddle2.ycor() - 55
     ):
         ball.dx *= -1
         ball.setx(340)
@@ -152,8 +158,8 @@ def check_bounce():
 
     if (
         (ball.xcor() < -340 and ball.xcor() > -350)
-        and ball.ycor() < paddle1.ycor() + 50
-        and ball.ycor() > paddle1.ycor() - 50
+        and ball.ycor() < paddle1.ycor() + 55
+        and ball.ycor() > paddle1.ycor() - 55
     ):
         ball.setx(-340)
         ball.dx *= -1
@@ -185,7 +191,7 @@ def point_won():
         font=("Rustic_Jack", 24, "normal"),
     )
     ball.dx += 0.1
-    ball.dy += 0.1
+    ball.dy = ball.dx
     print(f"ball delta = ({ball.dx},{ball.dy})")
 
     # check if game is won
