@@ -69,13 +69,13 @@ def paddle1_down():
 
 def paddle2_up():
     y = paddle2.ycor()
-    y += 1
+    y += 3
     paddle2.sety(y)
 
 
 def paddle2_down():
     y = paddle2.ycor()
-    y -= 1
+    y -= 3
     paddle2.sety(y)
 
 
@@ -85,20 +85,25 @@ wn.onkeypress(paddle1_down, "s")
 
 
 # Ball Delta
-ball.dx = 0.05
-ball.dy = 0.05
+ball.dx = 3
+ball.dy = 3
 
 score_a = 0
 score_b = 0
-max_score = 10
+max_score = 3
 running = True
-fps = 30
-
+fps = 60
 
 #! cpu ai
+def ai():
+    if ball.xcor() > 0:
+        if ball.ycor() > (paddle2.ycor() + 50):
+            paddle2_up()
+        elif ball.ycor() < (paddle2.ycor() - 50):
+            paddle2_down()
 
 
-# @ ball movement
+# ? ball movement
 
 
 def move_ball():
@@ -107,8 +112,9 @@ def move_ball():
 
 
 # @ check collisions
-def check_bounce(score_a, score_b, running):
-
+def check_bounce():
+    global score_a
+    global score_b
     # check ceiling/floor bounces
     if ball.ycor() > 290:
         ball.sety(290)
@@ -121,11 +127,11 @@ def check_bounce(score_a, score_b, running):
     # check goal scored
     if ball.xcor() > 390:
         score_a += 1
-        point_won(score_a, score_b, running)
+        point_won()
 
     if ball.xcor() < -390:
         score_b += 1
-        point_won(score_a, score_b, running)
+        point_won()
 
     # check paddle collision
     if (
@@ -150,8 +156,10 @@ def check_bounce(score_a, score_b, running):
 # @ point won
 
 
-def point_won(score_a, score_b, running):
-
+def point_won():
+    global running
+    global score_a
+    global score_b
     # update ball direction
     ball.goto(0, 0)
     ball.dx *= -1
@@ -166,7 +174,6 @@ def point_won(score_a, score_b, running):
     # check if game is won
     if score_a == max_score or score_b == max_score:
         running = False
-        return running
 
 
 # ? endgame
@@ -178,6 +185,11 @@ def game_over():
     ball.hideturtle()
     wn.update()
     pen.clear()
+    pen.write(
+        "Player A: {}  Player B: {}".format(score_a, score_b),
+        align="center",
+        font=("Rustic_Jack", 24, "normal"),
+    )
     pen.goto(0, 0)
 
     # display score and winner
@@ -191,18 +203,24 @@ def game_over():
 
 
 # @ main gameplay
-def mainloop():
-    move_ball()
-    check_bounce(score_a, score_b, running)
-    wn.update()
+def mainloop(fps):
+
+    frame_dur = 1 / fps
+
+    while running:
+        start = time.time()
+        move_ball()
+        ai()
+        check_bounce()
+        wn.update()
+        lag = time.time() - start  # how much time it took to run game loop
+        sleep = frame_dur - lag
+
+        if sleep > 0:
+            time.sleep(sleep)
+            # print(sleep)
 
 
-# @ main loop
-while running == True:
-    current_time = time.time()
-    mainloop()
-    td = time.time() - current_time
-    sleep_time = 1 / fps
-    # time.sleep(sleep_time - td)
+mainloop(fps)
 
 game_over()
