@@ -90,13 +90,15 @@ ball.dy = 3
 
 score_a = 0
 score_b = 0
-max_score = 3
+max_score = 10
 running = True
 fps = 60
 
-#! cpu ai
+# ? cpu ai
+
+
 def ai():
-    if ball.xcor() > 0:
+    if ball.xcor() > 140 and ball.dx > 0:
         if ball.ycor() > (paddle2.ycor() + 50):
             paddle2_up()
         elif ball.ycor() < (paddle2.ycor() - 50):
@@ -111,7 +113,7 @@ def move_ball():
     ball.sety(ball.ycor() + ball.dy)
 
 
-# @ check collisions
+# ? check collisions
 def check_bounce():
     global score_a
     global score_b
@@ -139,8 +141,14 @@ def check_bounce():
         and ball.ycor() < paddle2.ycor() + 50
         and ball.ycor() > paddle2.ycor() - 50
     ):
-        ball.setx(340)
         ball.dx *= -1
+        ball.setx(340)
+        if ball.ycor() > paddle2.ycor():
+            ball.dy += 0.1
+        else:
+            ball.dy -= 0.1
+
+        print(f"ball delta ({ball.dx}, {ball.dy}")
 
     if (
         (ball.xcor() < -340 and ball.xcor() > -350)
@@ -150,10 +158,16 @@ def check_bounce():
         ball.setx(-340)
         ball.dx *= -1
 
+        if ball.ycor() > paddle1.ycor():
+            ball.dy += 0.1
+        else:
+            ball.dy -= 0.1
+        print(f"ball delta ({ball.dx}, {ball.dy}")
+
 
 # check clipping
 
-# @ point won
+# ? point won
 
 
 def point_won():
@@ -170,6 +184,9 @@ def point_won():
         align="center",
         font=("Rustic_Jack", 24, "normal"),
     )
+    ball.dx += 0.1
+    ball.dy += 0.1
+    print(f"ball delta = ({ball.dx},{ball.dy})")
 
     # check if game is won
     if score_a == max_score or score_b == max_score:
@@ -190,7 +207,7 @@ def game_over():
         align="center",
         font=("Rustic_Jack", 24, "normal"),
     )
-    pen.goto(0, 0)
+    pen.goto(0, -50)
 
     # display score and winner
     if score_a > score_b:
@@ -202,7 +219,7 @@ def game_over():
     exit(0)
 
 
-# @ main gameplay
+# ? main gameplay
 def mainloop(fps):
 
     frame_dur = 1 / fps
